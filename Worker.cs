@@ -7,8 +7,8 @@ namespace Zoo
 {
     class Worker
     {
-        Park workPlace;
-        public Worker(Park workPlace)
+        ZooPark workPlace;
+        public Worker(ZooPark workPlace)
         {
             this.workPlace = workPlace;
         }

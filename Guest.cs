@@ -16,7 +16,7 @@ namespace Zoo
         {
             contentment = 1; // 100% Content
         }
-        public void GoToPark(Park park)
+        public void GoToPark(ZooPark park)
         {
             while (true)
             {

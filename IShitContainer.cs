@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Zoo
 {
+    // Container for animals to shit in
     public interface IShitContainer
     {
         void PlaceShit(Shit shit);

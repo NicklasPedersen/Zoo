@@ -17,9 +17,9 @@ namespace Zoo
             {
                 elephants.Add(new Elephant());
                 elephantContainer.PlaceAnimal(elephants[i]);
-                Elephant e = elephants[i];
-                Thread t = new Thread(() => e.Exist(timeWarp));
-                threads.Add(t);
+                Elephant elephant = elephants[i];
+                Thread thread = new Thread(() => elephant.Exist(timeWarp));
+                threads.Add(thread);
             }
             AnimalContainer foxContainer = new AnimalContainer("Fox");
             List<Fox> foxes = new List<Fox>();
@@ -27,23 +27,23 @@ namespace Zoo
             {
                 foxes.Add(new Fox());
                 foxContainer.PlaceAnimal(foxes[i]);
-                Fox f = foxes[i];
-                Thread t = new Thread(() => f.Exist(timeWarp));
-                threads.Add(t);
+                Fox fox = foxes[i];
+                Thread thread = new Thread(() => fox.Exist(timeWarp));
+                threads.Add(thread);
             }
             List<AnimalContainer> animalContainers = new List<AnimalContainer>
             {
                 elephantContainer,
                 foxContainer,
             };
-            Park p = new Park(animalContainers);
+            ZooPark zoo = new ZooPark(animalContainers);
 
             for (int i = 0; i < 300; i++)
             {
-                Guest g = new Guest();
-                guests.Add(g);
-                Thread t = new Thread(() => g.GoToPark(p));
-                threads.Add(t);
+                Guest guest = new Guest();
+                guests.Add(guest);
+                Thread thread = new Thread(() => guest.GoToPark(zoo));
+                threads.Add(thread);
             }
             EventWaitHandle[] handles = new EventWaitHandle[animalContainers.Count];
             for (int i = 0; i < animalContainers.Count; i++)
@@ -53,9 +53,9 @@ namespace Zoo
             List<Worker> workers = new List<Worker>();
             for (int i = 0; i < 2; i++)
             {
-                Worker worker = new Worker(p);
-                Thread t = new Thread(() => worker.Work(timeWarp));
-                threads.Add(t);
+                Worker worker = new Worker(zoo);
+                Thread thread = new Thread(() => worker.Work(timeWarp));
+                threads.Add(thread);
             }
             for (int i = 0; i < threads.Count; i++)
             {
@@ -67,8 +67,10 @@ namespace Zoo
                 int maxLenth = 0;
                 foreach (AnimalContainer container in animalContainers)
                 {
+                    // Find max length of all containers
                     maxLenth = maxLenth < container.Name.Length ? container.Name.Length : maxLenth;
                 }
+                Console.WriteLine();
                 for (int i = 0; i < animalContainers.Count; i++)
                 {
                     Console.SetCursorPosition(0, i);
@@ -77,7 +79,8 @@ namespace Zoo
                     float poopAmount = animalContainers[i].Shits.Count / 500.0f;
                     poopAmount = poopAmount > 1 ? 1 : poopAmount;
                     Console.BackgroundColor = ConsoleColor.DarkRed;
-                    float ratio = (Console.BufferWidth - maxLenth - 1) * poopAmount;
+                    // Calculate amount of space left
+                    float ratio = (Console.BufferWidth - maxLenth - 2) * poopAmount;
                     for (int j = 0; j < (int)(ratio); j++)
                     {
                         Console.Write(' ');
